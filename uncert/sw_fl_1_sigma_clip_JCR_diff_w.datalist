@@ -1,0 +1,67 @@
+#VERSION CHANGE
+#
+# Changed Function of Depth to D so that script will properly change D to Column $2, i.e. Depth Value
+#
+#space separated columns as specified below:
+#datalist_path -1 weight uncertanty uncertanty_equation vdatum_flag resamp_flag
+#
+#where:
+#
+#datalist_path = path of datalist 
+#-1 = value for datalist in a datalist
+#weight = weight value for dataset 
+#uncertanty = constant uncertainty value OR uncertainty as a function of depth flag, "DEPTH" 
+#uncertanty_equation = Uncertainty as a function of depth equation if "DEPTH" flag present in previous column
+#vdatum_flag = calculate vdatum uncertainty if "VDATUM" flag present
+#resamp_flag = ignore dataset interpolation uncertainty calc if resampled to coarser resolution, then oversampled back to finest resolution, "RESAMP" 
+#
+#
+#
+#
+#
+# Uncertainty value at 1 Sigma (RMSEz)
+# Multiply 95% confidence interval uncertainty by (1/1.96); i.e. 0.51; to get 1 sigma (i.e., 68%)
+#
+#
+#
+#Bathy Surfaces
+############################################################################################ 
+#/nfs/mgg_alaska/sw_fl/data/bathy/bathy_surf_horillo/bathy_surf.datalist -1 1 DEPTH ((2+(0.02*D))*0.51) NULL RESAMP
+#/nfs/mgg_alaska/sw_fl/data/bathy/mb_interp/gridding/mb_interp.datalist -1 0.001 DEPTH ((2+(0.02*D))*0.51) NULL RESAMP
+#/nfs/mgg_alaska/sw_fl/data/bathy/tb_interp/gridding/tb_interp.datalist -1 1 DEPTH ((2+(0.02*D))*0.51) NULL RESAMP
+############################################################################################
+#Topo
+############################################################################################
+/nfs/mgg_alaska/sw_fl/data/topo/fdem/gridding/clip/fdem.datalist -1 10 0.09 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/topo/sfwmd/gridding/sfwmd.datalist -1 5 0.14 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/topo/swfwmd/2005_Peace_River/gridding/swfwmd_2005_PR.datalist -1 5 0.07 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/topo/swfwmd/2006_Upper_Myakka/gridding/swfwmd_2006_UM.datalist -1 5 0.09 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/topo/ned_1_3/gridding/ned_1_3.datalist -1 1 2.44 NULL NULL NULL
+#############################################################################################
+#TopoBathy - Topo
+#############################################################################################
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usace/2015/topo/gridding/usace_2015_topo.datalist -1 100 0.06 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usace/2012/topo/gridding/clip/usace_2012_topo.datalist -1 50 0.10 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usace/2010/topo/gridding/clip/usace_2010_topo.datalist -1 25 0.20 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usgs_2004/topo/gridding/clip/usgs_2004_bt_topo.datalist -1 5 0.15 NULL NULL NULL
+#############################################################################################
+#TopoBathy - Bathy
+#############################################################################################
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usace/2015/bathy/gridding/usace_2015_bathy.datalist -1 100 0.06 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usace/2012/bathy/gridding/clip/usace_2012_bathy.datalist -1 50 DEPTH ((((0.25**2)+((0.0075*D)**2))**0.5)*0.51) NULL NULL
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usace/2010/bathy/gridding/clip/usace_2010_bathy.datalist -1 25 0.20 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usace/2006/bathy/gridding/clip/usace_2006_bathy.datalist -1 5 0.15 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usace/2004_ivan/bathy/gridding/clip/usace_2004_ivan_bathy.datalist -1 5 0.15 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usace/2004_gulf/bathy/gridding/clip/usace_2004_gulf_bathy.datalist -1 5 0.15 NULL NULL NULL
+/nfs/mgg_alaska/sw_fl/data/bathytopo/usgs_2004/bathy/gridding/clip/usgs_2004_bt_bathy.datalist -1 5 0.15 NULL NULL NULL
+#############################################################################################
+#Bathy
+############################################################################################# 
+/nfs/mgg_alaska/sw_fl/data/bathy/mb_horillo/xyz_msl/gridding/inner_clip/mb.datalist -1 10 DEPTH ((1+(0.02*D))*0.51) NULL NULL
+#/nfs/mgg_alaska/sw_fl/data/bathy/nos_horillo/xyz_navd88/gridding/lead/nos_lead.datalist -1 1 DEPTH ((2+(0.02*D))*0.51) VDATUM NULL
+/nfs/mgg_alaska/sw_fl/data/bathy/nos_horillo/xyz_navd88/gridding/echo/nos_echo.datalist -1 1 DEPTH ((1+(0.02*D))*0.51) VDATUM NULL
+/nfs/mgg_alaska/sw_fl/data/bathy/usace/xyz_navd88/gridding/usace_dredge.datalist -1 10 DEPTH ((1+(0.02*D))*0.51) VDATUM NULL
+###############################################################################################
+#Digitize
+###############################################################################################
+#/nfs/mgg_alaska/sw_fl/data/digitize/A1/A1_missing_topo_dig.datalist -1 0.01 1 NULL NULL NULL
